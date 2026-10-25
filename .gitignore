@@ -1,7 +1,9 @@
-venv/
+backend/venv/
+backend/.env
+backend/chroma_db/
+backend/audit.db
 __pycache__/
-.env
-chroma_db/
 *.pyc
 .DS_Store
-audit.db
+node_modules/
+frontend/react/dist/
