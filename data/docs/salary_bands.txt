@@ -1,0 +1,6 @@
+Acme Corp Salary Bands (Confidential, HR only)
+Level 1 (Junior Engineer): 6 to 9 lakh per year.
+Level 2 (Engineer): 10 to 16 lakh per year.
+Level 3 (Senior Engineer): 18 to 28 lakh per year.
+Level 4 (Engineering Manager): 30 to 45 lakh per year.
+Annual bonus ranges from 5 to 15 percent of base depending on performance rating.

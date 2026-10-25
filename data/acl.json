@@ -1,0 +1,9 @@
+{
+  "leave_policy.txt": ["employee", "hr", "finance", "admin"],
+  "it_security_policy.txt": ["employee", "hr", "finance", "admin"],
+  "salary_bands.txt": ["hr", "admin"],
+  "finance_report.txt": ["finance", "admin"],
+  "exec_compensation.txt": ["admin"],
+  "poisoned_faq.txt": ["employee", "hr", "finance", "admin"],
+  "poisoned_faq2.txt": ["employee", "hr", "finance", "admin"]
+}

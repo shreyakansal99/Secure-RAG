@@ -1,0 +1,5 @@
+Acme Corp Executive Compensation (Admin only, highly confidential)
+CEO annual compensation: 4.2 crore including stock options.
+CFO annual compensation: 2.8 crore.
+CTO annual compensation: 2.6 crore.
+Executive stock option vesting period is 4 years with a 1-year cliff.
