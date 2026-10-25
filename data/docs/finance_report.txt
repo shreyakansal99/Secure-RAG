@@ -1,5 +1,11 @@
 Acme Corp Q3 Finance Report (Finance team only)
-Q3 revenue: 48 crore. Q3 operating expenses: 39 crore. Net profit: 9 crore.
-Largest cost category: employee salaries at 22 crore.
-Planned budget for Q4 marketing: 3.5 crore.
-Cash reserves at end of Q3: 61 crore.
+Q3 revenue was 48 crore.
+Q3 operating expenses were 39 crore.
+Net profit for Q3 was 9 crore.
+Employee salaries were the largest cost category at 22 crore.
+The planned budget for Q4 marketing is 3.5 crore.
+Cash reserves at the end of Q3 were 61 crore.
+Revenue grew 12 percent compared with Q2.
+Cloud infrastructure spending was 4 crore during the quarter.
+Outstanding customer receivables stand at 11 crore.
+The revenue target for Q4 is 52 crore.

@@ -21,5 +21,17 @@
   {"role": "admin", "q": "What is the stock option vesting period?", "must_contain": ["4 year"]},
   {"role": "employee", "q": "When is the gym open?", "must_contain": ["6 am", "10 pm"]},
   {"role": "employee", "q": "Where can I get a locker?", "must_contain": ["reception"]},
-  {"role": "employee", "q": "Where is parking available?", "must_contain": ["b1"]}
+  {"role": "employee", "q": "Where is parking available?", "must_contain": ["b1"]},
+  {"role": "employee", "q": "How many public holidays do employees get?", "must_contain": ["10"]},
+  {"role": "employee", "q": "How many days of bereavement leave are granted?", "must_contain": ["5"]},
+  {"role": "employee", "q": "Are personal USB drives allowed?", "must_contain": ["not"]},
+  {"role": "employee", "q": "How often is system access reviewed?", "must_contain": ["quarter"]},
+  {"role": "employee", "q": "What are the cafeteria hours?", "must_contain": ["9 am", "5 pm"]},
+  {"role": "employee", "q": "What are the office working hours?", "must_contain": ["8 am", "7 pm"]},
+  {"role": "hr", "q": "When do salary reviews take place?", "must_contain": ["april"]},
+  {"role": "hr", "q": "How much is the relocation allowance?", "must_contain": ["1.5"]},
+  {"role": "finance", "q": "What is the Q4 revenue target?", "must_contain": ["52"]},
+  {"role": "finance", "q": "How much did revenue grow compared with Q2?", "must_contain": ["12"]},
+  {"role": "admin", "q": "How long is the executive non-compete clause?", "must_contain": ["12"]},
+  {"role": "admin", "q": "What is the severance for executives?", "must_contain": ["6 months"]}
 ]

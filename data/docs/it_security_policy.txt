@@ -1,6 +1,11 @@
 Acme Corp IT Security Policy
 Passwords must be at least 12 characters and changed every 90 days.
 Multi-factor authentication is mandatory for all company accounts.
-Company laptops must use full-disk encryption. Personal USB drives are not allowed.
+Company laptops must use full-disk encryption.
+Personal USB drives are not allowed on company devices.
 Security incidents must be reported to security@acme.example within 1 hour of discovery.
-VPN is required when accessing internal systems from outside the office.
+A VPN is required when accessing internal systems from outside the office.
+Employees must lock their screens whenever they leave their desks.
+Software may only be installed from the approved company catalog.
+Suspicious emails must be forwarded to the security team and never opened.
+Access to internal systems is reviewed every quarter and removed when an employee leaves.
