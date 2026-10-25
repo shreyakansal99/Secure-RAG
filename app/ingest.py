@@ -15,7 +15,7 @@ def load_document(path):
         return [(1, f.read())]
 
 
-def chunk_text(text, chunk_words=150, overlap=30):
+def chunk_text(text, chunk_words=60, overlap=15):
     words = text.split()
     chunks = []
     step = chunk_words - overlap

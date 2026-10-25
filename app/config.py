@@ -37,3 +37,6 @@ JUDGE_MODEL = os.getenv("JUDGE_MODEL", "ministral-3b-latest")
 GROUNDEDNESS_ENABLED = os.getenv("GROUNDEDNESS_ENABLED", "true").lower() == "true"
 GUARDRAILS_ENABLED = os.getenv("GUARDRAILS_ENABLED", "true").lower() == "true"
 ACCESS_CONTROL_ENABLED = os.getenv("ACCESS_CONTROL_ENABLED", "true").lower() == "true"
+
+HYBRID_ENABLED = os.getenv("HYBRID_ENABLED", "true").lower() == "true"
+KEYWORD_MIN_HITS = 1   # query words that must appear in a chunk for a keyword match

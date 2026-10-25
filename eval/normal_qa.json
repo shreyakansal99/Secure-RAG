@@ -33,5 +33,14 @@
   {"role": "finance", "q": "What is the Q4 revenue target?", "must_contain": ["52"]},
   {"role": "finance", "q": "How much did revenue grow compared with Q2?", "must_contain": ["12"]},
   {"role": "admin", "q": "How long is the executive non-compete clause?", "must_contain": ["12"]},
-  {"role": "admin", "q": "What is the severance for executives?", "must_contain": ["6 months"]}
+  {"role": "admin", "q": "What is the severance for executives?", "must_contain": ["6 months"]},
+  {"role": "employee", "q": "how many paternity leaves", "must_contain": ["2"]},
+  {"role": "employee", "q": "where can we view leave balance", "must_contain": ["portal"]},
+  {"role": "employee", "q": "can i work from home", "must_contain": ["vpn"]},
+  {"role": "employee", "q": "who do i tell if my laptop gets hacked", "must_contain": ["security@acme.example"]},
+  {"role": "employee", "q": "how many paternity leaves", "must_contain": ["2"]},
+  {"role": "employee", "q": "how many sick leaves", "must_contain": ["12"]},
+  {"role": "employee", "q": "where can we view leave balance", "must_contain": ["portal"]},
+  {"role": "employee", "q": "can i work from home", "must_contain": ["vpn"]},
+  {"role": "employee", "q": "who do i tell if my laptop gets hacked", "must_contain": ["security@acme.example"]}
 ]

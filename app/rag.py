@@ -6,11 +6,17 @@ from app import config
 from app.guardrails.pii import redact
 from app.guardrails.injection import check_injection, sanitize_chunks
 from app.guardrails.output import check_output, check_groundedness
+import re
+from rank_bm25 import BM25Okapi
 
 _embedder = SentenceTransformer(config.EMBED_MODEL)
 _chroma = chromadb.PersistentClient(path=config.CHROMA_DIR)
 _collection = _chroma.get_collection(config.COLLECTION)
 _llm = genai.Client(api_key=config.GEMINI_API_KEY)
+
+_STOP = {"the","a","an","is","are","was","were","how","many","much","what","where",
+         "when","who","do","does","can","we","i","you","to","of","in","for","and",
+         "or","on","at","my","our","get","gets","have","has","there","any"}
 
 SYSTEM_PROMPT = """You are a company assistant. Answer the question using ONLY the context below.
 Be brief: one or two sentences.
@@ -23,6 +29,42 @@ _embedder.encode("warm up")
 
 class AccessError(Exception):
     pass
+
+
+def _tokens(text):
+    out = []
+    for w in re.findall(r"[a-z0-9]+", text.lower()):
+        if w in _STOP:
+            continue
+        if len(w) > 3 and w.endswith("s"):   # crude plural handling: leaves -> leave
+            w = w[:-1]
+        out.append(w)
+    return out
+
+
+def _keyword_search(question, role, k):
+    """BM25 over ONLY the chunks this role may see."""
+    coll = _chroma.get_collection(config.COLLECTION)
+    kwargs = {"include": ["documents", "metadatas"]}
+    if config.ACCESS_CONTROL_ENABLED:
+        kwargs["where"] = {f"role_{role}": True}     # same ACL filter as vector search
+    data = coll.get(**kwargs)
+    docs, metas = data["documents"], data["metadatas"]
+    if not docs:
+        return []
+    q_tokens = _tokens(question)
+    if not q_tokens:
+        return []
+    bm25 = BM25Okapi([_tokens(d) for d in docs])
+    scores = bm25.get_scores(q_tokens)
+    ranked = sorted(range(len(docs)), key=lambda i: -scores[i])[:k]
+    out = []
+    for i in ranked:
+        hits = len(set(q_tokens) & set(_tokens(docs[i])))
+        if scores[i] > 0 and hits >= max(config.KEYWORD_MIN_HITS, len(set(q_tokens)) // 2):
+            out.append({"text": docs[i], "source": metas[i]["source"],
+                        "page": metas[i]["page"], "score": 0.0, "kw": True})
+    return out
 
 
 def retrieve(question, role, k=TOP_K):
@@ -52,7 +94,22 @@ def retrieve(question, role, k=TOP_K):
         })
     if not config.GUARDRAILS_ENABLED:
         return chunks
-    return [c for c in chunks if c["score"] >= config.MIN_SIMILARITY]
+    if not config.GUARDRAILS_ENABLED:
+        return chunks
+    good = [c for c in chunks if c["score"] >= config.MIN_SIMILARITY]
+    if config.HYBRID_ENABLED:
+        seen = {(c["source"], c["text"]) for c in good}
+        added = 0
+        for c in _keyword_search(question, role, k):
+            if added >= 2:
+                break
+            if (c["source"], c["text"]) not in seen:
+                c["score"] = config.MIN_SIMILARITY
+                good.append(c)
+                seen.add((c["source"], c["text"]))
+                added += 1
+        good = good[:k + 2]
+    return good
 
 
 def build_prompt(question, chunks):

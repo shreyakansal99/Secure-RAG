@@ -7,8 +7,16 @@ from app import config
 from app.rag import answer
 import time
 from app.audit import log_request
+from fastapi.middleware.cors import CORSMiddleware  
+from app import history
 
 app = FastAPI(title="Secure RAG")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 oauth2 = OAuth2PasswordBearer(tokenUrl="login")
 
 
@@ -33,6 +41,11 @@ def current_user(token: str = Depends(oauth2)):
     return {"username": payload["sub"], "role": payload["role"]}
 
 
+@app.get("/me")
+def me(user=Depends(current_user)):
+    return user
+
+
 @app.post("/login")
 def login(form: OAuth2PasswordRequestForm = Depends()):
     user = config.USERS.get(form.username)
@@ -46,6 +59,11 @@ def chat(req: ChatRequest, user=Depends(current_user)):
     t0 = time.time()
     result = answer(req.query, user["role"])
     log_request(user["username"], user["role"], result, int((time.time() - t0) * 1000))
+    a = result["answer"]
+    if (not result.get("blocked") and result.get("sources")
+            and not a.startswith(("[LLM error", "I couldn't", "I can't"))):
+        history.save(user["username"], user["role"], result["redacted_query"],
+                     a, [{"source": s["source"], "page": s["page"]} for s in result["sources"]])
     return {
         "user": user["username"],
         "role": user["role"],
@@ -56,3 +74,20 @@ def chat(req: ChatRequest, user=Depends(current_user)):
         "block_reason": result["block_reason"],
         "output_flags": result["output_flags"],
     }
+
+
+@app.get("/history")
+def get_history(q: str = "", user=Depends(current_user)):
+    return history.search(user["username"], user["role"], q)
+
+
+@app.delete("/history/{item_id}")
+def delete_history_item(item_id: int, user=Depends(current_user)):
+    history.delete(user["username"], item_id)
+    return {"ok": True}
+
+
+@app.delete("/history")
+def clear_history(user=Depends(current_user)):
+    history.clear(user["username"])
+    return {"ok": True}
